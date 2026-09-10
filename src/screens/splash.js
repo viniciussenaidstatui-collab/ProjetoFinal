@@ -1,13 +1,27 @@
 import { useEffect } from "react";
 import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
+import { obterToken, removerToken, validarToken } from "../services/api";
 
 export default function Splash({ navigation }) {
   useEffect(() => {
-    const timer = setTimeout(() => {
-      navigation.replace("login");
-    }, 2000);
+    async function verificarSessao() {
+      try {
+        const token = await obterToken();
 
-    return () => clearTimeout(timer);
+        if (!token) {
+          navigation.replace("login");
+          return;
+        }
+
+        await validarToken(token);
+        navigation.replace("home");
+      } catch {
+        await removerToken();
+        navigation.replace("login");
+      }
+    }
+
+    verificarSessao();
   }, [navigation]);
 
   return (
