@@ -18,12 +18,22 @@ export default function CadastroUser({ navigation }) {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [cpf, setCpf] = useState("");
-  const [dataNascimento, setDataNascimento] = useState("");
+  const [diaNascimento, setDiaNascimento] = useState("");
+  const [mesNascimento, setMesNascimento] = useState("");
+  const [anoNascimento, setAnoNascimento] = useState("");
   const [carregando, setCarregando] = useState(false);
 
   async function cadastrar() {
-    if (!nome || !email || !senha || !cpf || !dataNascimento) {
+    const dataNascimento = `${anoNascimento}-${mesNascimento.padStart(2, "0")}-${diaNascimento.padStart(2, "0")}`;
+    const dataValida = validarDataNascimento(diaNascimento, mesNascimento, anoNascimento);
+
+    if (!nome || !email || !senha || !cpf || !diaNascimento || !mesNascimento || !anoNascimento) {
       Alert.alert("Dados incompletos", "Preencha todos os campos.");
+      return;
+    }
+
+    if (!dataValida) {
+      Alert.alert("Data inválida", "Informe uma data de nascimento válida no formato dia, mês e ano.");
       return;
     }
 
@@ -136,15 +146,48 @@ export default function CadastroUser({ navigation }) {
           />
 
           <Text style={styles.label}>Data de nascimento</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="AAAA-MM-DD"
-            placeholderTextColor="#497280"
-            value={dataNascimento}
-            onChangeText={setDataNascimento}
-            keyboardType="numbers-and-punctuation"
-            maxLength={10}
-          />
+          <View style={styles.dateInput}>
+            <Text style={styles.calendarIcon}>▣</Text>
+            <View style={styles.datePart}>
+              <TextInput
+                style={styles.datePartInput}
+                placeholder="DD"
+                placeholderTextColor="#8493B8"
+                value={diaNascimento}
+                onChangeText={(value) => setDiaNascimento(value.replace(/\D/g, "").slice(0, 2))}
+                keyboardType="number-pad"
+                maxLength={2}
+              />
+              <Text style={styles.datePartLabel}>dia</Text>
+            </View>
+            <Text style={styles.dateSeparator}>/</Text>
+            <View style={styles.datePart}>
+              <TextInput
+                style={styles.datePartInput}
+                placeholder="MM"
+                placeholderTextColor="#8493B8"
+                value={mesNascimento}
+                onChangeText={(value) => setMesNascimento(value.replace(/\D/g, "").slice(0, 2))}
+                keyboardType="number-pad"
+                maxLength={2}
+              />
+              <Text style={styles.datePartLabel}>mês</Text>
+            </View>
+            <Text style={styles.dateSeparator}>/</Text>
+            <View style={[styles.datePart, styles.yearPart]}>
+              <TextInput
+                style={styles.datePartInput}
+                placeholder="AAAA"
+                placeholderTextColor="#8493B8"
+                value={anoNascimento}
+                onChangeText={(value) => setAnoNascimento(value.replace(/\D/g, "").slice(0, 4))}
+                keyboardType="number-pad"
+                maxLength={4}
+              />
+              <Text style={styles.datePartLabel}>ano</Text>
+            </View>
+          </View>
+          <Text style={styles.inputHint}>Use sua data real de nascimento</Text>
 
           <Pressable
             style={({ pressed }) => [styles.registerButton, pressed && styles.buttonPressed]}
@@ -237,6 +280,56 @@ const styles = StyleSheet.create({
     color: "#3505BF",
     fontSize: 15,
   },
+  dateInput: {
+    flexDirection: "row",
+    alignItems: "center",
+    height: 64,
+    marginBottom: 4,
+    paddingHorizontal: 14,
+    borderWidth: 1,
+    borderColor: "#D8DEFF",
+    borderRadius: 14,
+    backgroundColor: "#F8F9FF",
+  },
+  calendarIcon: {
+    marginRight: 12,
+    color: "#0074FF",
+    fontSize: 21,
+  },
+  datePart: {
+    alignItems: "center",
+    justifyContent: "center",
+    minWidth: 42,
+  },
+  yearPart: {
+    minWidth: 66,
+  },
+  datePartInput: {
+    width: "100%",
+    padding: 0,
+    color: "#3505BF",
+    fontSize: 16,
+    fontWeight: "800",
+    textAlign: "center",
+  },
+  datePartLabel: {
+    marginTop: 2,
+    color: "#8493B8",
+    fontSize: 10,
+    fontWeight: "700",
+    textTransform: "uppercase",
+  },
+  dateSeparator: {
+    marginHorizontal: 5,
+    color: "#8493B8",
+    fontSize: 20,
+    fontWeight: "600",
+  },
+  inputHint: {
+    marginBottom: 16,
+    color: "#8493B8",
+    fontSize: 12,
+  },
   registerButton: {
     alignItems: "center",
     justifyContent: "center",
@@ -259,3 +352,19 @@ const styles = StyleSheet.create({
     opacity: 0.78,
   },
 });
+
+function validarDataNascimento(dia, mes, ano) {
+  if (!/^\d{1,2}$/.test(dia) || !/^\d{1,2}$/.test(mes) || !/^\d{4}$/.test(ano)) {
+    return false;
+  }
+
+  const data = new Date(Number(ano), Number(mes) - 1, Number(dia));
+  const hoje = new Date();
+
+  return (
+    data.getFullYear() === Number(ano) &&
+    data.getMonth() === Number(mes) - 1 &&
+    data.getDate() === Number(dia) &&
+    data <= hoje
+  );
+}

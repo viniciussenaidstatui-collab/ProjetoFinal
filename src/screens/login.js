@@ -60,9 +60,6 @@ export default function Login({ navigation }) {
         showsVerticalScrollIndicator={false}
       >
        
-       
-
-
         <View style={styles.formCard}>
           <Text style={styles.label}>E-mail</Text>
           <TextInput

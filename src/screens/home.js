@@ -38,6 +38,20 @@ export default function Home({ navigation }) {
 
       <Text style={styles.sectionTitle}>Acesso rápido</Text>
 
+      <Pressable
+        style={({ pressed }) => [styles.actionCard, pressed && styles.buttonPressed]}
+        onPress={() => navigation.navigate("emprestimos")}
+      >
+        <View style={[styles.actionIcon, styles.blueIcon]}>
+          <Text style={styles.actionIconText}>PC</Text>
+        </View>
+        <View style={styles.actionCopy}>
+          <Text style={styles.actionTitle}>Pegar ou devolver computador</Text>
+          <Text style={styles.actionDescription}>Consulte os computadores disponíveis e suas retiradas.</Text>
+        </View>
+        <Text style={styles.arrow}>›</Text>
+      </Pressable>
+
       
       <Pressable
         style={({ pressed }) => [styles.actionCard, pressed && styles.buttonPressed]}

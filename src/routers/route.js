@@ -7,6 +7,7 @@ import Home from "../screens/home";
 import Tarefas from "../screens/tarefas";
 import EditaTarefa from "../screens/edita_tarefa";
 import CadastroComputador from "../screens/cadastro_computador";
+import Emprestimos from "../screens/emprestimos";
 
 const Stack = createNativeStackNavigator();
 
@@ -20,6 +21,7 @@ export default function Router() {
       <Stack.Screen name="tarefas" component={Tarefas} />
       <Stack.Screen name="edita_tarefa" component={EditaTarefa} />
       <Stack.Screen name="cadastro_computador" component={CadastroComputador} />
+      <Stack.Screen name="emprestimos" component={Emprestimos} />
     </Stack.Navigator>
   );
 }
