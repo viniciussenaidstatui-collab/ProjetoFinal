@@ -59,6 +59,35 @@ export function registrarComputador(token, numero, senhaConfirmacao) {
   });
 }
 
+export function listarComputadores(token, status) {
+  const query = status ? `?status=${encodeURIComponent(status)}` : "";
+
+  return request(`/computadores${query}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
+export function registrarEmprestimo(token, computadorId) {
+  return request("/emprestimos", {
+    method: "POST",
+    headers: { Authorization: `Bearer ${token}` },
+    body: JSON.stringify({ computador_id: computadorId }),
+  });
+}
+
+export function devolverEmprestimo(token, emprestimoId) {
+  return request(`/emprestimos/${emprestimoId}/devolver`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
+export function listarEmprestimosAtivos(token) {
+  return request("/emprestimos/ativos", {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
 export function logout(token) {
   return request("/logout", {
     method: "POST",
