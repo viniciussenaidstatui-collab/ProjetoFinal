@@ -147,7 +147,7 @@ export default function CadastroComputador({ navigation }) {
           <Text style={styles.sectionTitle}>Dados do computador</Text>
           <Text style={styles.sectionDescription}>Informe os dados necessários para realizar o registro.</Text>
 
-          <Text style={styles.label}>Número do computador</Text>
+          <Text style={styles.label}>Número de patrimônio</Text>
           <TextInput
             style={styles.input}
             placeholder="Ex: 001"
