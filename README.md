@@ -38,7 +38,7 @@ Antes de começar, você vai precisar ter instalado em sua máquina:
 Clone o repositório e instale as dependências:
 
 ```bash
-git clone <URL_DO_REPOSITORIO>
+git clone (https://github.com/viniciussenaidstatui-collab/ProjetoFinal.git)
 cd Task_app
 npm install
 ```
