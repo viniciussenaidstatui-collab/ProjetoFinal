@@ -153,7 +153,7 @@ Este projeto não possui uma licença definida atualmente.
 
 ---
 
-Feito com 💻 e ☕ por **[Seu Nome]**
+Feito por Vinícius O. SIlveira
 ```
 
 As principais mudanças que fiz para adaptar ao GitHub foram:
